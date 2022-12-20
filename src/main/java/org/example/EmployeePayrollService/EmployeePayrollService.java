@@ -8,18 +8,28 @@ public class EmployeePayrollService {
         System.out.println("Welcome to Employee Payroll DB");
         String jdbcurl = "jdbc:mysql://localhost:3306/payroll_service";
         String username = "root";
-        String password = "********";
+        String password = "@Vacky_007";
         Connection connection;
         Statement statement;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcurl, username, password);
             statement = connection.createStatement();
+            //Updating record in the table
+            String sql1 = "UPDATE employee_payroll SET basic_pay ='3000000' WHERE Name ='Terisa Reddy'";
+            //here addBatch is used to add individual statement to the batch.
+            statement.addBatch(sql1);
+            //to execute statement executeBatch used
+            statement.executeBatch();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM employee_payroll");
+            System.out.println("\tName\t\tbasic_pay");
+            System.out.println("-----------------------------");
             while (resultSet.next()) {
-                System.out.println("Name :" + resultSet.getString("Name"));
-                System.out.println("basic_pay :" + resultSet.getString("basic_pay"));
+                System.out.println(resultSet.getString(2) + "\t"
+                        + resultSet.getString(4));
             }
+            connection.commit();
+            connection.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.getStackTrace();
         }
