@@ -17,11 +17,14 @@ public class EmployeePayrollService {
             PreparedStatement preparedStatement = connection.prepareStatement(sql1);
             preparedStatement.execute(sql1);
             ResultSet resultSet = preparedStatement.executeQuery("SELECT * FROM employee_payroll");
-            System.out.println("\tName\t\tbasic_pay");
-            System.out.println("-----------------------------");
+            System.out.println("EmployeeID\t\tName\t\tgender\t\tbasic_pay\tStartDate");
+            System.out.println("-------------------------------------------------------------");
             while (resultSet.next()) {
-                System.out.println(resultSet.getString(2) + "\t"
-                        + resultSet.getString(4));
+                System.out.println(resultSet.getString(1) + "\t"
+                        + resultSet.getString(2) + "\t"
+                        + resultSet.getString(3) + "\t\t"
+                        + resultSet.getString(4) + "\t\t"
+                        + resultSet.getString(5));
             }
             connection.commit();
             connection.close();
