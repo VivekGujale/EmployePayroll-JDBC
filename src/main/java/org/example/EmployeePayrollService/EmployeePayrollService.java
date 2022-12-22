@@ -13,19 +13,16 @@ public class EmployeePayrollService {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcUrl, userName, password);
-            String sql1 = "SELECT * FROM employee_payroll WHERE StartDate BETWEEN '2020-04-01' AND NOW()";
+            String sql1 = "SELECT SUM(basic_pay), AVG(basic_pay), MAX(basic_pay), MIN(basic_pay), COUNT(basic_pay) FROM employee_payroll WHERE gender = 'Male' GROUP BY gender";
             PreparedStatement preparedStatement = connection.prepareStatement(sql1);
             preparedStatement.execute(sql1);
             ResultSet resultSet = preparedStatement.executeQuery();
-            System.out.println();
-            System.out.println("EmployeeID\t\tName\t\tgender\t\tbasic_pay\tStartDate");
-            System.out.println("----------------------------------------------------------------");
             while (resultSet.next()) {
-                System.out.println(resultSet.getString(1) + "\t"
-                        + resultSet.getString(2) + "\t"
-                        + resultSet.getString(3) + "\t\t"
-                        + resultSet.getString(4) + "\t\t"
-                        + resultSet.getString(5));
+                System.out.println("SUM : " + resultSet.getDouble("SUM(basic_pay)") + "\n" +
+                        "AVG : " + resultSet.getDouble("AVG(basic_pay)") + "\n" +
+                        "MAX : " + resultSet.getDouble("MAX(basic_pay)") + "\n" +
+                        "MIN : " + resultSet.getDouble("MIN(basic_pay)") + "\n" +
+                        "COUNT : " + resultSet.getString("COUNT(basic_pay)"));
             }
             connection.commit();
             connection.close();
