@@ -13,10 +13,13 @@ public class EmployeePayrollService {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcUrl, userName, password);
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM employee_payroll WHERE name = 'Terisa Reddy'");
+            String sql1 = "SELECT * FROM employee_payroll WHERE StartDate BETWEEN '2020-04-01' AND NOW()";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql1);
+            preparedStatement.execute(sql1);
             ResultSet resultSet = preparedStatement.executeQuery();
+            System.out.println();
             System.out.println("EmployeeID\t\tName\t\tgender\t\tbasic_pay\tStartDate");
-            System.out.println("-------------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------");
             while (resultSet.next()) {
                 System.out.println(resultSet.getString(1) + "\t"
                         + resultSet.getString(2) + "\t"
